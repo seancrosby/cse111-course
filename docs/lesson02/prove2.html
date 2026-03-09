@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<!-- Copyright © 2019, Brigham Young University–Idaho. All rights reserved. -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02 Prove: Compound Interest Calculator</title>
+    <script defer src="../site/main.js"></script>
+    <script defer src="../site/hljs/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Source+Code+Pro&family=Crimson+Pro&display=swap">
+    <link rel="stylesheet" href="../site/reset.css">
+    <link rel="stylesheet" href="../site/style.css">
+    <link rel="stylesheet" href="../site/math.css">
+    <link rel="stylesheet" href="../site/hljs/vscode.css">
+    <link rel="icon" type="image/webp" href="../site/icons/logo.webp">
+    <link rel="canonical" href="https://byui-cse.github.io/cse111-course/lesson02/prove2.html">
+    <link rel="prev" type="text/html" href="teach.html">
+    <link rel="next" type="text/html" href="../lesson03/prepare.html">
+    <meta name="description" content="An alternate programming assignment for Lesson 2 that requires calculating compound interest and logging results to a file.">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "LearningResource",
+        "headline": "Prove: Compound Interest Calculator",
+        "description": "An alternate programming assignment that requires writing Python code to call functions and perform financial calculations.",
+        "educationalUse": "assignment",
+        "copyrightNotice": "Copyright © 2019, Brigham Young University–Idaho. All rights reserved.",
+        "datePublished": "2024-03-09",
+        "dateModified": "2024-03-09"
+    }
+    </script>
+</head>
+
+<body>
+<main>
+    <h1>02 Prove: Compound Interest Calculator</h1>
+
+    <section>
+    <h2 id="purpose">Purpose</h2>
+    <p>Prove that you can write a Python program that performs complex
+    arithmetic, calls functions to get the current date, and appends
+    values to a text file.</p>
+    </section>
+
+    <section>
+    <h2 id="problem">Problem Statement</h2>
+    <p>Understanding how money grows over time is a critical skill for
+    financial planning. Compound interest is the interest on a loan or
+    deposit calculated based on both the initial principal and the
+    accumulated interest from previous periods. Financial advisors often
+    use simple programs to log various scenarios for their clients to
+    compare different investment strategies.</p>
+
+    <p>The formula to calculate the future value of an investment with
+    compound interest is:</p>
+
+    <div class="block formula">
+        <var>A</var> = <var>P</var> <span class="paren">1 + <div class="fract"><div><var>r</var></div><div><var>n</var></div></div></span><sup><var>nt</var></sup>
+    </div>
+
+    <ul>
+        <li><div><var>A</var> is the final amount (future value).</div></li>
+        <li><div><var>P</var> is the principal amount (initial investment).</div></li>
+        <li><div><var>r</var> is the annual interest rate (as a decimal).</div></li>
+        <li><div><var>n</var> is the number of times interest is compounded per year.</div></li>
+        <li><div><var>t</var> is the number of years the money is invested.</div></li>
+    </ul>
+    </section>
+
+    <section>
+    <h2 id="assign">Assignment</h2>
+    <p>Write a Python program named <code>investment.py</code> that
+    does the following:</p>
+
+    <ol>
+        <li><div>Reads from the keyboard the four values needed for the
+        formula: principal, annual interest rate (as a percentage),
+        number of times compounded per year, and the number of
+        years.</div></li>
+        <li><div>Computes and outputs the future value of the
+        investment.</div></li>
+        <li><div>Gets the current date from the computer’s
+        operating system.</div></li>
+        <li><div>Opens a text file named <code>investments.txt</code> for
+        appending.</div></li>
+        <li><div>Appends to the end of the <code>investments.txt</code> file
+        one line of text that contains the following six values:
+        <ol>
+            <li><div>current date</div></li>
+            <li><div>principal amount</div></li>
+            <li><div>annual interest rate (percentage)</div></li>
+            <li><div>compounds per year</div></li>
+            <li><div>number of years</div></li>
+            <li><div>future value</div></li>
+        </ol></div></li>
+    </ol>
+
+    <ul class="notes long">
+        <li><p>For all assignments in CSE&nbsp;111, please write your
+        program in a file named as the assignment states. Also, if an
+        assignment requires your program to read from a file or write to
+        a file, please use the filename stated in the assignment. If you
+        name your program or a data file differently than stated in an
+        assignment, it will be harder for the graders to score your
+        submitted assignment.</p>
+
+        <p>This assignment requires you to name your program
+        <code>investment.py</code> and requires your program to write
+        to a file named <code>investments.txt</code>. Please use those
+        names.</p></li>
+    </ul>
+    </section>
+
+    <section>
+    <h2 id="help">Help</h2>
+    <section>
+    <h3 id="helpful_docs">Helpful Documentation</h3>
+    <ul class="long">
+        <li><div>The <a href="prepare.html">preparation content</a> for
+        this lesson explains how to call functions, methods, and perform
+        basic file operations.</div></li>
+
+        <li><div><p>The <a href="https://docs.python.org/3/library/datetime.html#datetime.datetime.now"><code>datetime.now()</code> method</a>
+        from the standard Python <code>datetime</code> module will get
+        the current date and time from your computer’s operating system.
+        These two Microsoft videos explain how to use methods from
+        the standard <code>datetime</code> module.</p>
+        <ul class="videos">
+            <li><div><a href="https://learn.microsoft.com/en-us/shows/intro-to-python-development/python-for-beginners-15-of-44-date-data-types">Date data types</a> <span class="duration">(8 minutes)</span></div></li>
+            <li><div><a href="https://learn.microsoft.com/en-us/shows/intro-to-python-development/python-for-beginners-16-of-44-demo-dates">Demonstration: Dates</a> <span class="duration">(9 minutes)</span></div></li>
+        </ul>
+        </div></li>
+
+        <li><div>The built-in <a href="https://docs.python.org/3/library/functions.html#open"><code>open()</code> function</a>
+        opens a file for reading or writing. Use the mode <code>"at"</code> 
+        to append to a text file.</div></li>
+
+        <li><div>To calculate powers in Python, use the <code>**</code>
+        operator. For example, <code>1.05 ** 10</code> calculates 1.05
+        to the 10th power.</div></li>
+    </ul>
+    </section>
+    </section>
+
+    <section>
+    <h2 id="testing">Testing Procedure</h2>
+    <p>Verify that your program works correctly by following these steps:</p>
+    <ol class="test long">
+        <li><div>Run your program and enter the inputs shown below.
+<pre class="console">&gt; python investment.py
+Enter the principal amount: <span class="input">10000</span>
+Enter the annual interest rate (ex 5.5): <span class="input">5</span>
+Enter the number of times compounded per year: <span class="input">12</span>
+Enter the number of years: <span class="input">10</span>
+
+The future value is $16,470.09</pre>
+        </div></li>
+
+        <li><div>Verify that <code>investments.txt</code> contains a line
+        similar to this:
+<pre class="file">2024-03-09, 10000, 5, 12, 10, 16470.09</pre></div></li>
+    </ol>
+    </section>
+
+    <section>
+    <h2 id="exceed">Exceeding the Requirements</h2>
+    <p>To exceed the requirements (earn the final 7%), consider these
+    features:</p>
+    <ul class="long">
+        <li><div>Format the final output and the file entry to exactly
+        two decimal places using Python's <code>f-string</code>
+        formatting (e.g., <code>{value:.2f}</code>).</div></li>
+        <li><div>Add a check to ensure the user doesn't enter negative
+        numbers for the principal or years.</div></li>
+    </ul>
+    </section>
+
+    <section>
+    <h2 id="submit">Submission</h2>
+    <p>Follow the standard submission instructions in I-Learn,
+    uploading your <code>investment.py</code> file.</p>
+    </section>
+</main>
+</body>
+</html>

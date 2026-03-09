@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!-- Copyright © 2026, Brigham Young University–Idaho. All rights reserved. -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 Prove: Medical Lab Results Analyzer</title>
+    <script defer src="../site/main.js"></script>
+    <script defer src="../site/hljs/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Source+Code+Pro&family=Crimson+Pro&display=swap">
+    <link rel="stylesheet" href="../site/reset.css">
+    <link rel="stylesheet" href="../site/style.css">
+    <link rel="stylesheet" href="../site/math.css">
+    <link rel="stylesheet" href="../site/hljs/vscode.css">
+    <link rel="icon" type="image/webp" href="../site/icons/logo.webp">
+    <link rel="canonical" href="https://byui-cse.github.io/cse111-course/lesson10/prove2.html">
+    <link rel="prev" type="text/html" href="teach.html">
+    <link rel="next" type="text/html" href="../lesson11/prepare.html">
+    <meta name="description" content="A combined programming assignment for Lessons 9 and 10 that requires reading CSV files, using dictionaries for lookups, and handling exceptions.">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "LearningResource",
+        "headline": "Prove: Medical Lab Results Analyzer",
+        "description": "An alternate programming assignment that requires processing medical lab results, comparing them to reference ranges, and implementing robust error handling.",
+        "educationalUse": "assignment",
+        "copyrightNotice": "Copyright © 2026, Brigham Young University–Idaho. All rights reserved.",
+        "datePublished": "2026-03-09",
+        "dateModified": "2026-03-09"
+    }
+    </script>
+</head>
+
+<body>
+<main>
+    <h1>10 Prove: Medical Lab Results Analyzer</h1>
+
+    <section>
+    <h2 id="purpose">Purpose</h2>
+    <p>Prove that you can write a Python program that reads CSV files, 
+    populates a dictionary, processes a list of transactions, and 
+    handles common exceptions like <code>FileNotFoundError</code>, 
+    <code>KeyError</code>, and <code>ValueError</code>.</p>
+    </section>
+
+    <section>
+    <h2 id="problem">Problem Statement</h2>
+    <p>A medical clinic needs a program to process patient blood test 
+    results. The program must compare a patient's results against a 
+    catalog of "Normal" reference ranges. If a result is outside the 
+    range, the program should flag it as "High" or "Low". This helps 
+    doctors quickly identify potential health issues.</p>
+    </section>
+
+    <section>
+    <h2 id="assign">Assignment</h2>
+    <p>Write a Python program named <code>lab_analyzer.py</code> that 
+    processes two CSV files and prints a summary report. Your program 
+    must do the following:</p>
+    <ol>
+        <li><div>Read <code>lab_tests.csv</code> into a compound 
+        dictionary using the test code as the key.</div></li>
+        <li><div>Read <code>patient_results.csv</code> and look up 
+        each test name and range.</div></li>
+        <li><div>Determine the status (Normal, High, or Low) for 
+        each result.</div></li>
+        <li><div>Count the total number of tests and the number of 
+        abnormal results (High or Low).</div></li>
+        <li><div>Include robust error handling for missing files, 
+        unknown codes, and invalid numeric data.</div></li>
+        <li><div>Print the current date and time at the bottom of the 
+        report.</div></li>
+    </ol>
+    </section>
+
+    <section>
+    <h2 id="help">Help</h2>
+    <section>
+    <h3 id="helpful_docs">Helpful Documentation</h3>
+    <ul class="long">
+        <li><div>The <a href="../lesson09/prepare.html">preparation 
+        content for lesson&nbsp;9</a> explains how to read a CSV 
+        file into a dictionary.</div></li>
+        <li><div>The <a href="prepare.html">preparation content for this 
+        lesson</a> explains how to handle exceptions with 
+        <code>try</code> and <code>except</code>.</div></li>
+        <li><div>To format numbers to one decimal place, use an f-string 
+        like this: <code>f"{value:.1f}"</code>.</div></li>
+    </ul>
+    </section>
+    </section>
+
+    <section>
+    <h2 id="steps">Steps</h2>
+    <ol class="long">
+        <li><div>Download <a download href="lab_tests.csv"><code>lab_tests.csv</code></a>, 
+        <a download href="patient_results.csv"><code>patient_results.csv</code></a>, 
+        and <a download href="test_lab_analyzer.py"><code>test_lab_analyzer.py</code></a>.</div></li>
+
+        <li><div>In <code>lab_analyzer.py</code>, write a function 
+        named <code>read_dictionary(filename, key_column_index)</code> 
+        that reads a CSV file into a dictionary.</div></li>
+
+        <li><div>Write a function <code>get_status(result, min_val, max_val)</code> 
+        that returns "Normal" if the result is between min and max (inclusive), 
+        "High" if it is above max, and "Low" if it is below min.</div></li>
+
+        <li><div>In <code>main</code>, wrap your core logic in a 
+        <code>try</code> block and add <code>except</code> blocks to 
+        handle:
+        <ul>
+            <li><div><code>FileNotFoundError</code>: Print a message 
+            identifying the missing file.</div></li>
+            <li><div><code>KeyError</code>: Print a message identifying 
+            the unknown test code.</div></li>
+            <li><div><code>ValueError</code>: Print a message identifying 
+            invalid numeric data in the CSV.</div></li>
+        </ul></div></li>
+    </ol>
+    </section>
+
+    <section>
+    <h2 id="testing">Testing Procedure</h2>
+    <ol class="test long">
+        <li><div>Run <code>pytest test_lab_analyzer.py</code> and ensure 
+        your helper functions pass.</div></li>
+        <li><div>Run your program and verify the output matches this 
+        format:
+<pre class="console">&gt; python lab_analyzer.py
+Medical Lab Report: P0482
+
+Glucose: 115.0 (Normal: 70.0-99.0) - High
+Total Cholesterol: 185.0 (Normal: 125.0-200.0) - Normal
+LDL Cholesterol: 120.0 (Normal: 0.0-100.0) - High
+Triglycerides: 145.0 (Normal: 0.0-150.0) - Normal
+Hemoglobin: 12.5 (Normal: 13.5-17.5) - Low
+...
+
+Total Tests: 9
+Abnormal Results: 4
+
+Report generated on: Monday 01:23 PM</pre>
+        </div></li>
+    </ol>
+    </section>
+
+    <section>
+    <h2 id="mistakes">Common Mistake</h2>
+    <h3>Losing Data in the Results File</h3>
+    <p>Because some patients may have multiple results for the same test 
+    (like the two Glucose tests in <code>patient_results.csv</code>), 
+    your program should <strong>not</strong> read the 
+    <code>patient_results.csv</code> file into a dictionary. If you do, 
+    the second result will overwrite the first. Instead, read and process 
+    each row of the results file one by one in a loop.</p>
+    </section>
+
+    <section>
+    <h2 id="submit">Submission</h2>
+    <p>Follow the standard submission instructions in I&nbsp;Learn,
+    uploading your <code>lab_analyzer.py</code> file.</p>
+    </section>
+</main>
+</body>
+</html>

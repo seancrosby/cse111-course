@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<!-- Copyright © 2026, Brigham Young University–Idaho. All rights reserved. -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06 Prove: Flight Path & Fuel Calculator</title>
+    <script defer src="../site/main.js"></script>
+    <script defer src="../site/hljs/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Source+Code+Pro&family=Crimson+Pro&display=swap">
+    <link rel="stylesheet" href="../site/reset.css">
+    <link rel="stylesheet" href="../site/style.css">
+    <link rel="stylesheet" href="../site/math.css">
+    <link rel="stylesheet" href="../site/hljs/vscode.css">
+    <link rel="icon" type="image/webp" href="../site/icons/logo.webp">
+    <link rel="canonical" href="https://byui-cse.github.io/cse111-course/lesson06/prove2.html">
+    <link rel="prev" type="text/html" href="teach.html">
+    <link rel="next" type="text/html" href="../lesson07/prepare.html">
+    <meta name="description" content="An alternate programming assignment for Lesson 6 that requires writing math-heavy functions, unit tests with pytest, and troubleshooting with a debugger.">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "LearningResource",
+        "headline": "Prove: Flight Path & Fuel Calculator",
+        "description": "An alternate programming assignment that requires writing functions with complex math, verifying them with unit tests, and debugging logic errors.",
+        "educationalUse": "assignment",
+        "copyrightNotice": "Copyright © 2026, Brigham Young University–Idaho. All rights reserved.",
+        "datePublished": "2026-03-09",
+        "dateModified": "2026-03-09"
+    }
+    </script>
+</head>
+
+<body>
+<main>
+    <h1>06 Prove: Flight Path & Fuel Calculator</h1>
+
+    <section>
+    <h2 id="purpose">Purpose</h2>
+    <p>Prove that you can write a Python program with complex mathematical
+    functions, verify those functions using <code>pytest</code>, and 
+    troubleshoot logic errors using the VS Code debugger.</p>
+    </section>
+
+    <section>
+    <h2 id="problem">Problem Statement</h2>
+    <p>Pilots must carefully plan their flights to ensure they have enough
+    fuel to reach their destination, plus a safety reserve required by 
+    law. This planning involves calculating the distance over the Earth's 
+    curved surface, adjusting for wind speed (which affects how fast the 
+    plane moves relative to the ground), and accounting for the extra fuel 
+    burned during the climb to cruising altitude.</p>
+    </section>
+
+    <section>
+    <h2 id="assign">Assignment</h2>
+    <p>Write a Python program named <code>flight_planner.py</code> and a
+    corresponding test file <code>test_flight_planner.py</code>. Your 
+    program will help a pilot calculate the total fuel required for a 
+    trip between two locations. Because you should have learned how to 
+    write and test functions in previous lessons, this assignment will 
+    focus on using those skills to solve a more complex problem and 
+    using the debugger to find mistakes.</p>
+    </section>
+
+    <section>
+    <h2 id="help">Help</h2>
+    <section>
+    <h3 id="helpful_docs">Helpful Documentation</h3>
+    <ul class="long">
+        <li><div>The <a href="../lesson05/prepare.html">preparation
+        content for lesson&nbsp;5</a> explains how to use <code>pytest</code>,
+        <code>assert</code>, and <code>approx</code>.</div></li>
+
+        <li><div>The <a href="prepare.html">preparation content for this
+        lesson</a> explains how to use the VS Code debugger to step 
+        through your code.</div></li>
+
+        <li><div>Python's <code>math</code> module (including <code>math.sin</code>, 
+        <code>math.cos</code>, <code>math.radians</code>, and <code>math.asin</code>) 
+        will be essential for the Haversine formula.</div></li>
+    </ul>
+    </section>
+    </section>
+
+    <section>
+    <h2 id="steps">Steps</h2>
+    <p>In <code>flight_planner.py</code>, write the following functions and 
+    verify them with corresponding test functions in <code>test_flight_planner.py</code>.</p>
+    
+    <ol class="long">
+        <li><div><b>Calculate Distance:</b> Write <code>haversine_distance(lat1, lon1, lat2, lon2)</code>. 
+        Use the Haversine formula to calculate the distance in kilometers between two points.
+        <div class="block formula">
+            <var>d</var> = 2<var>r</var> arcsin<span class="paren large">&thinsp;&radic;<span class="overline">sin<sup>2</sup><span class="paren">&thinsp;<div class="fract"><div>&Delta;<var>lat</var></div><div>2</div></div>&thinsp;</span> + cos(<var>lat1</var>) cos(<var>lat2</var>) sin<sup>2</sup><span class="paren">&thinsp;<div class="fract"><div>&Delta;<var>lon</var></div><div>2</div></div>&thinsp;</span></span>&thinsp;</span>
+        </div>
+        Where <var>r</var> (Earth's radius) is 6,371 km. <i>Note: All 
+        trigonometric functions in Python's <code>math</code> module 
+        expect angles to be in radians.</i></div></li>
+
+        <li><div><b>Adjust for Wind:</b> Write <code>ground_speed(airspeed, wind_speed)</code>. 
+        For this assignment, assume a direct headwind or tailwind. A tailwind 
+        (positive <code>wind_speed</code>) increases the plane's speed 
+        relative to the ground. A headwind (negative <code>wind_speed</code>) 
+        decreases it. Ground Speed = Airspeed + Wind Speed.</div></li>
+
+        <li><div><b>Fuel Burn:</b> Write <code>fuel_burn_rate(speed, burn_coefficient)</code>. 
+        Calculate liters per hour using: <var>rate</var> = <var>burn_coefficient</var> &times; <var>speed</var><sup>1.2</sup> / 100.</div></li>
+
+        <li><div><b>Required Fuel:</b> Write <code>total_fuel(distance, ground_speed, burn_rate)</code>. 
+        Total Fuel = (Distance / Ground Speed &times; Burn Rate) + 15.0 liters (safety reserve).</div></li>
+
+        <li><div>Copy and paste the following code at the bottom of your
+        <code>flight_planner.py</code> program.
+<div class="example"><pre class="python">
+# Constants for a standard light aircraft
+CRUISE_AIRSPEED = 200.0     # (km/h)
+FUEL_BURN_COEFFICIENT = 5.0  # (unitless)
+
+def main():
+    # Get the coordinates of the two locations.
+    print("Please enter the GPS coordinates for your flight path.")
+    lat1 = float(input("Departure latitude: "))
+    lon1 = float(input("Departure longitude: "))
+    lat2 = float(input("Destination latitude: "))
+    lon2 = float(input("Destination longitude: "))
+
+    # Get the wind speed.
+    wind_speed = float(input("Wind speed in km/h (negative for headwind): "))
+
+    # Call the haversine_distance function to calculate the distance.
+    distance = haversine_distance(lat1, lon1, lat2, lon2)
+
+    # Call the ground_speed function to calculate the ground speed.
+    gs = ground_speed(CRUISE_AIRSPEED, wind_speed)
+
+    # Call the fuel_burn_rate function to calculate the burn rate.
+    burn_rate = fuel_burn_rate(gs, FUEL_BURN_COEFFICIENT)
+
+    # Call the total_fuel function to calculate the required fuel.
+    fuel = total_fuel(distance, gs, burn_rate)
+
+    # Print the results for the user to see.
+    print(f"\nFlight Summary:")
+    print(f"Distance: {distance:.1f} km")
+    print(f"Ground Speed: {gs:.1f} km/h")
+    print(f"Required Fuel: {fuel:.1f} liters")
+
+
+if __name__ == "__main__":
+    main()</pre></div>
+        </div></li>
+    </ol>
+    </section>
+
+    <section>
+    <h2 id="testing">Testing Procedure</h2>
+    <p>Verify your functions with <code>pytest</code>. For example, 
+    <code>haversine_distance(43.82, -111.79, 40.76, -111.89)</code> (Rexburg to SLC) 
+    should be approximately 340.2 km.</p>
+    
+    <ol class="test long">
+        <li><div>Run <code>pytest test_flight_planner.py</code> and ensure 
+        all tests pass.</div></li>
+
+        <li><div>Run your finished <code>flight_planner.py</code> program.
+        Enter the input shown below and ensure that your program prints
+        the output shown below.
+<pre class="console">
+Please enter the GPS coordinates for your flight path.
+Departure latitude: <span class="input">43.82</span>
+Departure longitude: <span class="input">-111.79</span>
+Destination latitude: <span class="input">40.76</span>
+Destination longitude: <span class="input">-111.89</span>
+Wind speed in km/h (negative for headwind): <span class="input">-20</span>
+
+Flight Summary:
+Distance: 340.2 km
+Ground Speed: 180.0 km/h
+Required Fuel: 62.4 liters
+</pre>
+        </div></li>
+
+        <li><div>Use the debugger to watch the <code>ground_speed</code> 
+        calculation if your total fuel seems incorrect.</div></li>
+    </ol>
+    </section>
+
+    <section>
+    <h2 id="exceed">Exceeding the Requirements</h2>
+    <p>To exceed the requirements (earn the final 7%), consider these
+    features:</p>
+    <ul class="long">
+        <li><div>Add a <code>climb_fuel(altitude_ft)</code> function that 
+        adds 0.5 liters for every 1,000 feet of climb.</div></li>
+        <li><div>Format the final output to show the flight duration in 
+        hours and minutes (e.g., "1h 45m").</div></li>
+    </ul>
+    </section>
+
+    <section>
+    <h2 id="submit">Submission</h2>
+    <p>Follow the standard submission instructions in I&nbsp;Learn,
+    uploading both your <code>flight_planner.py</code> and 
+    <code>test_flight_planner.py</code> files.</p>
+    </section>
+</main>
+</body>
+</html>

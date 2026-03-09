@@ -1,0 +1,9 @@
+TestCode,TestName,MinValue,MaxValue
+GLU,Glucose,70,99
+CHO,Total Cholesterol,125,200
+HDL,HDL Cholesterol,40,60
+LDL,LDL Cholesterol,0,100
+TRI,Triglycerides,0,150
+HGB,Hemoglobin,13.5,17.5
+WBC,White Blood Cell Count,4.5,11.0
+PLT,Platelet Count,150,450

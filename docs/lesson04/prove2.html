@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<!-- Copyright © 2026, Brigham Young University–Idaho. All rights reserved. -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04 Prove: Dynamic Recipe Generator</title>
+    <script defer src="../site/main.js"></script>
+    <script defer src="../site/hljs/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Source+Code+Pro&family=Crimson+Pro&display=swap">
+    <link rel="stylesheet" href="../site/reset.css">
+    <link rel="stylesheet" href="../site/style.css">
+    <link rel="stylesheet" href="../site/math.css">
+    <link rel="stylesheet" href="../site/hljs/vscode.css">
+    <link rel="icon" type="image/webp" href="../site/icons/logo.webp">
+    <link rel="canonical" href="https://byui-cse.github.io/cse111-course/lesson04/prove2.html">
+    <link rel="prev" type="text/html" href="teach.html">
+    <link rel="next" type="text/html" href="../lesson05/prepare.html">
+    <meta name="description" content="An alternate programming assignment for Lesson 4 that requires writing nested functions to scale recipes and generate shopping lists.">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "LearningResource",
+        "headline": "Prove: Dynamic Recipe Generator",
+        "description": "An alternate programming assignment that requires writing functions with parameters, calling functions within functions, and handling variable scope.",
+        "educationalUse": "assignment",
+        "copyrightNotice": "Copyright © 2026, Brigham Young University–Idaho. All rights reserved.",
+        "datePublished": "2026-03-09",
+        "dateModified": "2026-03-09"
+    }
+    </script>
+</head>
+
+<body>
+<main>
+    <h1>04 Prove: Dynamic Recipe Generator</h1>
+
+    <section>
+    <h2 id="purpose">Purpose</h2>
+    <p>Prove that you can write functions with parameters, call functions
+    from within other functions, and manage variable scope effectively.</p>
+    </section>
+
+    <section>
+    <h2 id="problem">Problem Statement</h2>
+    <p>Cooking for a large group or just for yourself requires scaling
+    recipes. A recipe for 4 people doesn't work for 12 without some
+    math. Digital cookbooks often have a feature where you can enter the
+    number of servings you want, and the program automatically updates
+    the quantities and the cooking instructions.</p>
+    </section>
+
+    <section>
+    <h2 id="assign">Assignment</h2>
+    <p>Write a Python program named <code>recipe.py</code> that
+    generates a scaled recipe and a shopping list. Your program must
+    include at least these seven functions:</p>
+
+    <ol>
+        <li><div><code>main</code></div></li>
+        <li><div><code>make_recipe</code></div></li>
+        <li><div><code>get_ingredient</code></div></li>
+        <li><div><code>get_instruction</code></div></li>
+        <li><div><code>scale_quantity</code></div></li>
+        <li><div><code>get_prep_time</code></div></li>
+        <li><div><code>get_shopping_item</code></div></li>
+    </ol>
+
+    <p>The core logic of your program should follow these rules:</p>
+    <ul>
+        <li><div>The <code>main</code> function should ask the user for
+        the recipe name and the number of desired servings.</div></li>
+        <li><div>The <code>make_recipe</code> function should coordinate
+        the calls to the other functions to build a single, multi-line
+        string representing the full recipe.</div></li>
+        <li><div>The <code>scale_quantity</code> function should take a
+        base quantity (designed for 4 servings) and scale it to the
+        desired number of servings.</div></li>
+    </ul>
+    </section>
+
+    <section>
+    <h2 id="help">Help</h2>
+    <section>
+    <h3 id="helpful_docs">Helpful Documentation</h3>
+    <ul class="long">
+        <li><div>The <a href="../lesson03/prepare.html">preparation
+        content for lesson&nbsp;3</a> explains how to write
+        functions.</div></li>
+
+        <li><div>The <a href="prepare.html">preparation content for this
+        lesson</a> explains variable scope and how to call a function
+        from inside another function.</div></li>
+
+        <li><div>To format numbers to one decimal place, use an f-string
+        like this: <code>f"{amount:.1f}"</code>.</div></li>
+    </ul>
+    </section>
+    </section>
+
+    <section>
+    <h2 id="steps">Steps</h2>
+    <p>Do the following:</p>
+    <ol class="long">
+        <li><div>Write the <code>scale_quantity(base_qty, servings)</code>
+        function. It should return <code>base_qty * servings / 4</code>.</div></li>
+
+        <li><div>Write the <code>get_prep_time(servings)</code> function.
+        It should return an estimate like <code>20 + (servings * 2)</code> 
+        minutes.</div></li>
+
+        <li><div>Write the <code>get_ingredient(item, base_qty, unit, servings)</code>
+        function. This function must call <code>scale_quantity</code>
+        and return a formatted string like "1.5 cups of Flour".</div></li>
+
+        <li><div>Write the <code>get_instruction(verb, item)</code>
+        function. It should return a simple string like "Whisk the
+        Flour until smooth."</div></li>
+
+        <li><div>Write the <code>get_shopping_item(ingredient_string)</code>
+        function. This function should take an ingredient string (like
+        "1.5 cups of Flour") and use the <code>split()</code> method to
+        extract and return just the last word (the item name).</div></li>
+
+        <li><div>Write <code>make_recipe(name, servings)</code>. This
+        function will call <code>get_prep_time</code>, 
+        <code>get_ingredient</code> and <code>get_instruction</code> 
+        multiple times to build a complete recipe string.</div></li>
+    </ol>
+    </section>
+
+    <section>
+    <h2 id="testing">Testing Procedure</h2>
+    <p>Verify that your program works correctly by following these steps:</p>
+    <ol class="test long">
+        <li><div>Run your program and enter the inputs shown below.
+<pre class="console">&gt; python recipe.py
+Enter the recipe name: <span class="input">Sugar Cookies</span>
+Enter the number of servings: <span class="input">8</span>
+
+--- Sugar Cookies (8 servings) ---
+Prep Time: 30 minutes
+
+Ingredients:
+2.0 cups of Flour
+1.0 cups of Sugar
+0.5 lbs of Butter
+
+Instructions:
+1. Whisk the Flour until smooth.
+2. Mix in the Sugar.
+3. Melt the Butter and stir.
+
+Shopping List:
+- Flour
+- Sugar
+- Butter</pre>
+        </div></li>
+    </ol>
+    </section>
+
+    <section>
+    <h2 id="exceed">Exceeding the Requirements</h2>
+    <p>To exceed the requirements (earn the final 7%), consider these
+    features:</p>
+    <ul class="long">
+        <li><div>Add a <code>get_random_tip()</code> function that
+        randomly chooses a cooking tip from a list and adds it to the
+        bottom of the recipe.</div></li>
+        <li><div>Handle the case where the user enters 0 or a negative
+        number for servings by providing a default of 4.</div></li>
+    </ul>
+    </section>
+
+    <section>
+    <h2 id="submit">Submission</h2>
+    <p>Follow the standard submission instructions in I-Learn,
+    uploading your <code>recipe.py</code> file.</p>
+    </section>
+</main>
+</body>
+</html>

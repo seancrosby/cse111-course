@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!-- Copyright © 2026, Brigham Young University–Idaho. All rights reserved. -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>08 Prove: Bill of Materials Calculator</title>
+    <script defer src="../site/main.js"></script>
+    <script defer src="../site/hljs/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Source+Code+Pro&family=Crimson+Pro&display=swap">
+    <link rel="stylesheet" href="../site/reset.css">
+    <link rel="stylesheet" href="../site/style.css">
+    <link rel="stylesheet" href="../site/math.css">
+    <link rel="stylesheet" href="../site/hljs/vscode.css">
+    <link rel="icon" type="image/webp" href="../site/icons/logo.webp">
+    <link rel="canonical" href="https://byui-cse.github.io/cse111-course/lesson08/prove2.html">
+    <link rel="prev" type="text/html" href="teach.html">
+    <link rel="next" type="text/html" href="../lesson09/prepare.html">
+    <meta name="description" content="A combined programming assignment for Lessons 7 and 8 that requires students to create a parts catalog dictionary and calculate total manufacturing costs.">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "LearningResource",
+        "headline": "Prove: Bill of Materials Calculator",
+        "description": "An alternate programming assignment that requires using dictionaries to store parts data and performing calculations based on nested manufacturing strings.",
+        "educationalUse": "assignment",
+        "copyrightNotice": "Copyright © 2026, Brigham Young University–Idaho. All rights reserved.",
+        "datePublished": "2026-03-09",
+        "dateModified": "2026-03-09"
+    }
+    </script>
+</head>
+
+<body>
+<main>
+    <h1>08 Prove: Bill of Materials Calculator</h1>
+
+    <section>
+    <h2 id="purpose">Purpose</h2>
+    <p>Prove that you can write a Python program that uses a dictionary to
+    efficiently store and retrieve data, and use lists to manage
+    complex data structures.</p>
+    </section>
+
+    <section>
+    <h2 id="problem">Problem Statement</h2>
+    <p>In manufacturing, a <dfn>Bill of Materials</dfn> (BOM) is an
+    exhaustive list of raw materials, assemblies, and sub-assemblies
+    needed to manufacture a product. For example, a bicycle's BOM
+    includes the frame, handlebars, and two wheels. Each wheel is a
+    sub-assembly containing a rim, a tire, and 28 spokes.</p>
+
+    <p>Engineers use a BOM Calculator to estimate the total cost of 
+    production. The calculator needs to look up the unit cost of every 
+    individual part and multiply it by the quantity required, even 
+    when parts are grouped inside sub-assemblies.</p>
+    </section>
+
+    <section>
+    <h2 id="assign">Assignment</h2>
+    <p>Write a Python program named <code>bom_calculator.py</code> that 
+    calculates the total cost of an assembly. Your program must do the 
+    following:</p>
+    <ol>
+        <li><div>Convert a provided compound list of parts into a 
+        dictionary where the Part ID is the key.</div></li>
+        <li><div>Read a BOM string (e.g., <code>"Frm:1, (Rim:1, Spk:28):2"</code>) 
+        from the user.</div></li>
+        <li><div>Calculate the total cost by looking up each part's 
+        unit cost in the dictionary.</div></li>
+    </ol>
+    </section>
+
+    <section>
+    <h2 id="steps">Steps</h2>
+    <ol class="long">
+        <li><div>Download <a download href="bom_parser.py"><code>bom_parser.py</code></a>
+        and <a download href="bom_catalog.py"><code>bom_catalog.py</code></a>.</div></li>
+
+        <li><div>At the top of <code>bom_calculator.py</code>, import the 
+        necessary functions:
+<pre class="python">
+from bom_parser import parse_bom
+from bom_catalog import get_parts_catalog</pre></div></li>
+
+        <li><div>Write a function named <code>make_catalog_dict</code> 
+        that takes the list from <code>get_parts_catalog()</code> and 
+        returns a dictionary organized like this:
+<pre class="python">
+{
+    "Frm": ["Frame", 150.00],
+    "Rim": ["Rim", 25.00],
+    ...
+}</pre></div></li>
+
+        <li><div>Write <code>calculate_assembly_cost(parts_list, catalog_dict)</code>.
+        The <code>parts_list</code> is returned by the <code>parse_bom</code> 
+        function. For each part in the list, look up its cost in the 
+        dictionary and add the total to a running sum.</div></li>
+
+        <li><div>Write the <code>main</code> function to handle user input 
+        and display the final results.</div></li>
+    </ol>
+    </section>
+
+    <section>
+    <h2 id="testing">Testing Procedure</h2>
+    <ol class="test long">
+        <li><div>Run your program with the following inputs:
+<pre class="console">&gt; python bom_calculator.py
+Enter the BOM string: <span class="input">Frm:1, Hnd:1, Sdl:1, (Rim:1, Spk:28, Tir:1):2</span>
+
+Total Assembly Cost: $313.00</pre>
+        </div></li>
+    </ol>
+    </section>
+
+    <section>
+    <h2 id="submit">Submission</h2>
+    <p>Follow the standard submission instructions in I&nbsp;Learn,
+    uploading your <code>bom_calculator.py</code> file.</p>
+    </section>
+</main>
+</body>
+</html>
