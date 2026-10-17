@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<!-- Copyright © 2020, Brigham Young University–Idaho. All rights reserved. -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06 Team Activity: Debugging a Hotdog Menu</title>
+    <script defer src="../site/main.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Source+Code+Pro&family=Crimson+Pro&display=swap">
+    <link rel="stylesheet" href="../site/reset.css">
+    <link rel="stylesheet" href="../site/style.css">
+    <link rel="stylesheet" href="../site/math.css">
+    <link rel="icon" type="image/webp" href="../site/icons/logo.webp">
+    <link rel="canonical" href="https://byui-cse.github.io/cse111-course/lesson06/teach_alt.html">
+    <meta name="description" content="A guided debugging activity that uses print statements, pytest, and the VS Code debugger.">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "LearningResource",
+        "headline": "06 Team Activity: Debugging a Hotdog Menu",
+        "description": "A guided debugging activity that uses print statements, pytest, and the VS Code debugger.",
+        "educationalUse": "group assignment",
+        "copyrightNotice": "Copyright © 2020, Brigham Young University–Idaho. All rights reserved."
+    }
+    </script>
+</head>
+
+<body>
+<main>
+    <h1>06 Team Activity: Debugging a Hotdog Menu</h1>
+
+    <section>
+    <h2 id="instrucs">Instructions</h2>
+    <p>Work as a team as explained in the instructions for the
+    <a href="../lesson02/teach.html#instrucs">lesson&nbsp;2 team
+    activity</a>. Use the debugging techniques from the
+    <a href="prepare.html">lesson&nbsp;6 preparation material</a>.</p>
+    </section>
+
+    <section>
+    <h2 id="purpose">Purpose</h2>
+    <p>Practice finding and correcting logic errors with three useful
+    techniques: unit tests, print statements, and the VS Code debugger.
+    A program can run without an error message and still contain an
+    incorrect calculation, incorrect output, or an incorrect test.</p>
+    </section>
+
+    <section>
+    <h2 id="files">Starter Files</h2>
+    <p>Open these two files in VS Code:</p>
+    <ul>
+        <li><div><a href="hotdog_menu.py"><code>hotdog_menu.py</code></a>
+        prints a hotdog menu and selects a daily special.</div></li>
+        <li><div><a href="test_hotdog_menu.py"><code>test_hotdog_menu.py</code></a>
+        contains pytest test functions for the menu program.</div></li>
+    </ul>
+    <p>There are three intentional bugs. Fix them in the order shown
+    below. Use the designated debugging technique for each one, even if
+    you think you can spot the mistake by reading the code.</p>
+    </section>
+
+    <section>
+    <h2 id="activity">Debugging Activity</h2>
+
+    <section>
+    <h3 id="tests">1. Find an Incorrect Test with pytest</h3>
+    <p>Start by running the unit tests. In VS Code, choose
+    <strong>Terminal</strong> &gt; <strong>New Terminal</strong>. Change
+    to the lesson&nbsp;6 directory if necessary, and run:</p>
+
+<pre class="console">&gt; python test_hotdog_menu.py</pre>
+
+    <p>On macOS, your command may be <code>python3
+    test_hotdog_menu.py</code>. On Windows, it may be <code>py
+    test_hotdog_menu.py</code>. Read the pytest output carefully. It
+    identifies the test function that failed and the line containing the
+    failed assertion.</p>
+
+    <p>Investigate the failing <code>test_get_hotdogs</code> test. A
+    test has two parts: the actual value returned by the program and the
+    expected value written in the test. Decide which one is wrong by
+    comparing the test to <code>get_hotdogs</code> in
+    <code>hotdog_menu.py</code>. Correct the test, not the menu data.</p>
+
+    <details>
+        <summary>Hint: Reading pytest output</summary>
+        <p>Look for the lines marked <code>E</code> in pytest's output.
+        They show two values that are different. The failed-test heading
+        tells you which test function to open.</p>
+    </details>
+    <details>
+        <summary>Hint: Comparing expected and actual values</summary>
+        <p>The variable returned from <code>get_hotdogs</code> is the
+        actual value. The list on the right side of <code>assert</code>
+        is the expected value. Compare each menu item and price in both
+        locations until you find the disagreement.</p>
+    </details>
+    <details>
+        <summary>Hint: What should change?</summary>
+        <p>This activity contains a bad test, not bad menu data. Make
+        the expected list in the test agree with the price defined in
+        <code>get_hotdogs</code>.</p>
+    </details>
+    </section>
+
+    <section>
+    <h3 id="prints">2. Find an Off-by-One Error with Print Statements</h3>
+    <p>Next, run the menu program:</p>
+
+<pre class="console">&gt; python hotdog_menu.py</pre>
+
+    <p>The daily special is not the item that should be selected for the
+    current day. Use temporary print statements to trace the value of
+    the day as it moves from <code>main</code> to
+    <code>display_menu</code> and then to <code>get_daily_special</code>.
+    Add a print statement immediately after the day is obtained and
+    another before or inside the function that chooses the special.
+    Include labels in your output so you know which value each line
+    represents, for example:</p>
+
+<pre class="python">print(f"day passed to display_menu: {day}")</pre>
+
+    <p>Run the program after adding each print statement. Compare the
+    values you see to the current day of the month. Then correct the
+    calculation in <code>main</code> so it passes the intended day to
+    <code>display_menu</code>. Remove your temporary print statements
+    when you are finished.</p>
+
+    <details>
+        <summary>Hint: Where to print</summary>
+        <p>Start at the line in <code>main</code> that assigns a value
+        to <code>day</code>. Then print the <code>day</code> parameter
+        at the beginning of <code>display_menu</code>. If those two
+        values agree, continue tracing it into
+        <code>get_daily_special</code>.</p>
+    </details>
+    <details>
+        <summary>Hint: Off-by-one errors</summary>
+        <p>An off-by-one error occurs when a calculation is one value
+        too high or too low. Check whether the value returned by
+        <code>datetime.now().day</code> already represents the current
+        day before it is passed to <code>display_menu</code>.</p>
+    </details>
+    <details>
+        <summary>Hint: List indexes and calendar days</summary>
+        <p>Python list indexes begin at zero, but calendar day numbers
+        begin at one. Examine where the modulo operation is used and
+        avoid changing more than the calculation that introduces the
+        incorrect day value.</p>
+    </details>
+    </section>
+
+    <section>
+    <h3 id="debugger">3. Find a Menu-Width Error with the Debugger</h3>
+    <p>One line printed by <code>display_menu</code> is narrower than
+    the rest of the menu. The unit test named
+    <code>test_display_menu_line_widths</code> detects the problem.
+    Leave that test in place and use the VS Code debugger to identify
+    which printed line has the wrong width.</p>
+
+    <ol>
+        <li><div>Open <code>hotdog_menu.py</code> in VS Code.</div></li>
+        <li><div>Click in the gutter to the left of a line in
+        <code>display_menu</code> to set a red breakpoint. Begin near
+        the first line that prints a separator.</div></li>
+        <li><div>Open the <strong>Run and Debug</strong> view with
+        <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd> on Windows or
+        <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd> on macOS. Choose
+        <strong>Run and Debug</strong>, select Python if VS Code asks
+        for a debugger, and press <kbd>F5</kbd>.</div></li>
+        <li><div>When execution pauses, look in the
+        <strong>Variables</strong> pane. Check the values of
+        <code>width</code> and the expression used to create the line
+        that is about to print.</div></li>
+        <li><div>Use <strong>Step Over</strong>
+        (<kbd>F10</kbd>) to execute one line at a time. Continue with
+        <kbd>F5</kbd> after examining a line. Use <strong>Step Into</strong>
+        (<kbd>F11</kbd>) only when you need to enter a function such as
+        <code>format_menu_line</code>.</div></li>
+    </ol>
+
+    <p>As you step through the code, compare the requested width with
+    the width passed to the line-formatting function. Correct only the
+    statement responsible for the narrow line. Run the unit tests again
+    to confirm that every menu line now has the requested width.</p>
+
+    <details>
+        <summary>Hint: Choosing a breakpoint</summary>
+        <p>The top and bottom borders use a different character at each
+        end. The problem is in an interior separator line, so set a
+        breakpoint on or just before the statements that print interior
+        separators.</p>
+    </details>
+    <details>
+        <summary>Hint: Inspecting values</summary>
+        <p>While paused, hover over a variable in the editor or expand
+        the <strong>Variables</strong> pane. You can also use the
+        <strong>Debug Console</strong> to evaluate an expression such
+        as <code>len(formatted_line)</code> after a line has been
+        created.</p>
+    </details>
+    <details>
+        <summary>Hint: What to compare</summary>
+        <p>For an interior separator, compare both the number of
+        separator characters and the width argument supplied to
+        <code>format_menu_line</code> with the <code>width</code>
+        variable in <code>display_menu</code>.</p>
+    </details>
+    </section>
+    </section>
+
+    <section>
+    <h2 id="finish">Finish and Pass Off</h2>
+    <p>Run <code>test_hotdog_menu.py</code> one final time. All tests
+    should pass. Also run <code>hotdog_menu.py</code> and verify that
+    the menu borders and all interior lines have the same width.</p>
+    <p>Before you remove your work, show your corrected program and
+    passing tests to the Teacher or TA. Be prepared to explain which
+    tool you used for each bug and what evidence led you to the fix.</p>
+    </section>
+</main>
+</body>
+</html>
