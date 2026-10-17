@@ -43,6 +43,29 @@
     techniques: unit tests, print statements, and the VS Code debugger.
     A program can run without an error message and still contain an
     incorrect calculation, incorrect output, or an incorrect test.</p>
+    <p>The program in this activity prints a menu for a hotdog stand.
+    It lists regular items, auxiliary items, and one discounted daily
+    special. After you fix all three bugs, the output for day&nbsp;1
+    should look like this:</p>
+
+<pre class="console">+===================================+
+|         The Hotdog Stand          |
++===================================+
+| Classic Hotdog            $  3.50 |
+| Chili Cheese Dog          $  4.75 |
+| Chicago Dog               $  5.25 |
+| Corn Dog                  $  3.25 |
+| Veggie Dog                $  4.00 |
+|===================================|
+|           Daily Special           |
+| Chili Cheese Dog          $  4.28 |
+|              10% off              |
+|===================================|
+|          Auxiliary Items          |
+| Ice Cream Bar             $  2.50 |
+| Bottled Water             $  1.50 |
+| Extra Mustard             $  0.25 |
++===================================+</pre>
     </section>
 
     <section>
@@ -75,6 +98,12 @@
     test_hotdog_menu.py</code>. Read the pytest output carefully. It
     identifies the test function that failed and the line containing the
     failed assertion.</p>
+
+    <p>You can also run the tests from VS Code. Open
+    <code>test_hotdog_menu.py</code>, then click the
+    <strong>Run Test</strong> button shown above a test function or the
+    <strong>Run Python File</strong> button in the upper-right corner of
+    the editor. View the results in the Testing panel or the terminal.</p>
 
     <p>Investigate the failing <code>test_get_hotdogs</code> test. A
     test has two parts: the actual value returned by the program and the
@@ -110,8 +139,10 @@
 <pre class="console">&gt; python hotdog_menu.py</pre>
 
     <p>The daily special is not the item that should be selected for the
-    current day. Use temporary print statements to trace the value of
-    the day as it moves from <code>main</code> to
+    current day. Find today's day number, run the program, and compare
+    the printed daily special with the reference table below. Use
+    temporary print statements to trace the value of the day as it
+    moves from <code>main</code> to
     <code>display_menu</code> and then to <code>get_daily_special</code>.
     Add a print statement immediately after the day is obtained and
     another before or inside the function that chooses the special.
@@ -125,6 +156,32 @@
     calculation in <code>main</code> so it passes the intended day to
     <code>display_menu</code>. Remove your temporary print statements
     when you are finished.</p>
+
+    <p>The schedule repeats every five days. This table shows the
+    discounted item expected for every one-based day of a 31-day month.</p>
+    <table class="center"><thead>
+        <tr>
+            <th>Day</th><th>Discounted Item</th>
+            <th>Day</th><th>Discounted Item</th>
+        </tr>
+    </thead><tbody>
+        <tr><td class="number">1</td><td>Chili Cheese Dog</td><td class="number">17</td><td>Chicago Dog</td></tr>
+        <tr><td class="number">2</td><td>Chicago Dog</td><td class="number">18</td><td>Corn Dog</td></tr>
+        <tr><td class="number">3</td><td>Corn Dog</td><td class="number">19</td><td>Veggie Dog</td></tr>
+        <tr><td class="number">4</td><td>Veggie Dog</td><td class="number">20</td><td>Classic Hotdog</td></tr>
+        <tr><td class="number">5</td><td>Classic Hotdog</td><td class="number">21</td><td>Chili Cheese Dog</td></tr>
+        <tr><td class="number">6</td><td>Chili Cheese Dog</td><td class="number">22</td><td>Chicago Dog</td></tr>
+        <tr><td class="number">7</td><td>Chicago Dog</td><td class="number">23</td><td>Corn Dog</td></tr>
+        <tr><td class="number">8</td><td>Corn Dog</td><td class="number">24</td><td>Veggie Dog</td></tr>
+        <tr><td class="number">9</td><td>Veggie Dog</td><td class="number">25</td><td>Classic Hotdog</td></tr>
+        <tr><td class="number">10</td><td>Classic Hotdog</td><td class="number">26</td><td>Chili Cheese Dog</td></tr>
+        <tr><td class="number">11</td><td>Chili Cheese Dog</td><td class="number">27</td><td>Chicago Dog</td></tr>
+        <tr><td class="number">12</td><td>Chicago Dog</td><td class="number">28</td><td>Corn Dog</td></tr>
+        <tr><td class="number">13</td><td>Corn Dog</td><td class="number">29</td><td>Veggie Dog</td></tr>
+        <tr><td class="number">14</td><td>Veggie Dog</td><td class="number">30</td><td>Classic Hotdog</td></tr>
+        <tr><td class="number">15</td><td>Classic Hotdog</td><td class="number">31</td><td>Chili Cheese Dog</td></tr>
+        <tr><td class="number">16</td><td>Chili Cheese Dog</td><td></td><td></td></tr>
+    </tbody></table>
 
     <details>
         <summary>Hint: Where to print</summary>
