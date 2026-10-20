@@ -111,6 +111,17 @@
     comparing the test to <code>get_hotdogs</code> in
     <code>hotdog_menu.py</code>. Correct the test, not the menu data.</p>
 
+    <p>If pytest abbreviates the list comparison, open
+    <code>test_hotdog_menu.py</code> and edit the
+    <code>pytest.main</code> call at the bottom. Remove
+    <code>--tb=line</code> and change <code>-v</code> to
+    <code>-vv</code>:</p>
+
+<pre class="python">pytest.main(["-vv", "-rN", __file__])</pre>
+
+    <p>Run the test file again. The more detailed output makes it easier
+    to compare the actual and expected lists item by item.</p>
+
     <p>Run the tests again after correcting the expected price. Confirm
     that <code>test_get_hotdogs</code> passes before moving to step 2;
     the menu-width test is expected to remain failing until you fix it.</p>
