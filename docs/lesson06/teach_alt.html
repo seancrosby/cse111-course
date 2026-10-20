@@ -222,10 +222,11 @@
     <code>day % len(hotdogs)</code>; therefore, the calendar day should
     be passed unchanged to <code>display_menu</code>. Use
     temporary print statements to trace the value of the day as it
-    moves from <code>main</code> to
-    <code>display_menu</code> and then to <code>get_daily_special</code>.
-    Add a print statement immediately after the day is obtained and
-    another before or inside the function that chooses the special.
+    moves from <code>main</code> to <code>get_menu_day</code>, then to
+    <code>display_menu</code>, and finally to
+    <code>get_daily_special</code>. Add a print statement immediately
+    after the day is obtained and another before or inside the function
+    that chooses the special.
     Include labels in your output so you know which value each line
     represents, for example:</p>
 
@@ -265,11 +266,12 @@
 
     <details>
         <summary>Hint: Where to print</summary>
-        <p>Start at the line in <code>main</code> that assigns a value
-        to <code>day</code>. Then print the <code>day</code> parameter
-        at the beginning of <code>display_menu</code>. Compare both
-        values with <code>datetime.now().day</code>. If the values agree,
-        continue tracing the same value into
+        <p>Start at the line in <code>get_menu_day</code> that assigns a
+        value to <code>calendar_day</code>. Print the value returned by
+        <code>get_menu_day</code> in <code>main</code>, then print the
+        <code>day</code> parameter at the beginning of
+        <code>display_menu</code>. Compare each value with
+        <code>datetime.now().day</code> before continuing into
         <code>get_daily_special</code>.</p>
     </details>
     <details>
@@ -277,8 +279,8 @@
         <p>An off-by-one error occurs when a calculation is one value
         too high or too low. <code>datetime.now().day</code> already
         represents the one-based calendar day, so check whether
-        <code>main</code> adds an unnecessary offset before passing it
-        to <code>display_menu</code>.</p>
+        <code>get_menu_day</code> adds an unnecessary offset before
+        returning the value.</p>
     </details>
     <details>
         <summary>Hint: List indexes and calendar days</summary>

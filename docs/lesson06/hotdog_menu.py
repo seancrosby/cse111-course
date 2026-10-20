@@ -71,9 +71,15 @@ def display_menu(day, width):
     print(f"+{'=' * (width - 2)}+")
 
 
+def get_menu_day():
+    """Return today's calendar day for the menu."""
+    calendar_day = datetime.now().day
+    return calendar_day + 1
+
+
 def main():
     width = 37
-    day = datetime.now().day + 1
+    day = get_menu_day()
     display_menu(day, width)
 
 

@@ -46,8 +46,10 @@ def test_display_menu_line_widths(capsys):
     display_menu(1, width)
 
     menu_lines = capsys.readouterr().out.splitlines()
-    for line in menu_lines:
-        assert len(line) == width
+    for number, line in enumerate(menu_lines, start=1):
+        assert len(line) == width, (
+            f"Menu line {number} has length {len(line)}: {line!r}"
+        )
 
 
 pytest.main(["-v", "--tb=line", "-rN", __file__])
