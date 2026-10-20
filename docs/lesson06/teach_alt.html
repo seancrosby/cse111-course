@@ -93,11 +93,11 @@
 
 <pre class="console">&gt; python test_hotdog_menu.py</pre>
 
-    <p>On macOS, your command may be <code>python3
-    test_hotdog_menu.py</code>. On Windows, it may be <code>py
-    test_hotdog_menu.py</code>. Read the pytest output carefully. It
-    identifies the test function that failed and the line containing the
-    failed assertion.</p>
+    <p>If <code>python</code> is not the command on your computer, use
+    <code>python3 test_hotdog_menu.py</code> on macOS or Linux, or
+    <code>py test_hotdog_menu.py</code> on Windows. Read the pytest
+    output carefully. It identifies the test function that failed and
+    the line containing the failed assertion.</p>
 
     <p>You can also run the tests from VS Code. Open
     <code>test_hotdog_menu.py</code>, then click the
@@ -110,6 +110,10 @@
     expected value written in the test. Decide which one is wrong by
     comparing the test to <code>get_hotdogs</code> in
     <code>hotdog_menu.py</code>. Correct the test, not the menu data.</p>
+
+    <p>Run the tests again after correcting the expected price. Confirm
+    that <code>test_get_hotdogs</code> passes before moving to step 2;
+    the menu-width test is expected to remain failing until you fix it.</p>
 
     <details>
         <summary>Hint: Reading pytest output</summary>
@@ -133,10 +137,78 @@
     </section>
 
     <section>
-    <h3 id="prints">2. Find an Off-by-One Error with Print Statements</h3>
+    <h3 id="debugger">2. Find a Menu-Width Error with the Debugger</h3>
+    <p>One line printed by <code>display_menu</code> is narrower than
+    the rest of the menu. The unit test named
+    <code>test_display_menu_line_widths</code> detects the problem.
+    Leave that test in place and use the VS Code debugger to trace the
+    width through <code>display_menu</code> and
+    <code>print_separator</code> until you identify which value is
+    wrong.</p>
+
+    <ol>
+        <li><div>Open <code>hotdog_menu.py</code> in VS Code.</div></li>
+        <li><div>Click in the gutter to the left of a line in
+        <code>display_menu</code> to set a red breakpoint. Begin near
+        the first call to <code>print_separator</code>.</div></li>
+        <li><div>Open the <strong>Run and Debug</strong> view with
+        <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd> on Windows or
+        <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd> on macOS. Choose
+        <strong>Run and Debug</strong>, select Python if VS Code asks
+        for a debugger, and press <kbd>F5</kbd>.</div></li>
+        <li><div>When execution pauses, look in the
+        <strong>Variables</strong> pane. Check the values of
+        <code>width</code> and the expression used to create the line
+        that is about to print.</div></li>
+        <li><div>Use <strong>Step Over</strong>
+        (<kbd>F10</kbd>) to execute one line at a time. Continue with
+        <kbd>F5</kbd> after examining a line. Use <strong>Step Into</strong>
+        (<kbd>F11</kbd>) to enter <code>print_separator</code> and then
+        <code>format_menu_line</code>.</div></li>
+    </ol>
+
+    <p>As you step through the code, compare the original
+    <code>width</code>, the local width used for the special separator,
+    and the width passed to <code>format_menu_line</code>. Correct only
+    the statement that creates the incorrect derived width. Run the unit
+    tests again to confirm that every menu line now has the requested
+    width.</p>
+
+    <details>
+        <summary>Hint: Choosing a breakpoint</summary>
+        <p>The top and bottom borders use a different character at each
+        end. The problem is in the separator immediately before the
+        daily special, so set a breakpoint on the call that prints that
+        separator.</p>
+    </details>
+    <details>
+        <summary>Hint: Inspecting values</summary>
+        <p>While paused inside <code>print_separator</code>, hover over
+        <code>text</code> or expand the <strong>Variables</strong> pane.
+        You can also use the <strong>Debug Console</strong> to evaluate
+        <code>len(text)</code> and compare it with the width argument.
+        Inside <code>format_menu_line</code>, inspect the values of
+        <code>text</code> and <code>width</code> before the return
+        statement.</p>
+    </details>
+    <details>
+        <summary>Hint: What to compare</summary>
+        <p>Compare the value of <code>width</code> in
+        <code>display_menu</code> with the derived width passed to
+        <code>print_separator</code>. Then compare that value with the
+        width passed to <code>format_menu_line</code>.</p>
+    </details>
+    </section>
+
+    <section>
+    <h3 id="prints">3. Find an Off-by-One Error with Print Statements</h3>
     <p>Next, run the menu program:</p>
 
 <pre class="console">&gt; python hotdog_menu.py</pre>
+
+    <p>If <code>python</code> is not the command on your computer, use
+    <code>python3 hotdog_menu.py</code> on macOS or Linux, or
+    <code>py hotdog_menu.py</code> on Windows.</p>
 
     <p>You can also run the program from VS Code. Open
     <code>hotdog_menu.py</code>, then click the
@@ -144,8 +216,11 @@
     the editor. The printed menu appears in the VS Code terminal.</p>
 
     <p>The daily special is not the item that should be selected for the
-    current day. Find today's day number, run the program, and compare
-    the printed daily special with the reference table below. Use
+    current day. Find today's calendar day, run the program, and compare
+    the printed daily special with the reference table below. The table
+    uses one-based calendar days, and the list calculation uses
+    <code>day % len(hotdogs)</code>; therefore, the calendar day should
+    be passed unchanged to <code>display_menu</code>. Use
     temporary print statements to trace the value of the day as it
     moves from <code>main</code> to
     <code>display_menu</code> and then to <code>get_daily_special</code>.
@@ -158,9 +233,9 @@
 
     <p>Run the program after adding each print statement. Compare the
     values you see to the current day of the month. Then correct the
-    calculation in <code>main</code> so it passes the intended day to
-    <code>display_menu</code>. Remove your temporary print statements
-    when you are finished.</p>
+    calculation in <code>main</code> so it passes the calendar day,
+    without an extra offset, to <code>display_menu</code>. Remove your
+    temporary print statements when you are finished.</p>
 
     <p>The schedule repeats every five days. This table shows the
     discounted item expected for every one-based day of a 31-day month.</p>
@@ -192,16 +267,18 @@
         <summary>Hint: Where to print</summary>
         <p>Start at the line in <code>main</code> that assigns a value
         to <code>day</code>. Then print the <code>day</code> parameter
-        at the beginning of <code>display_menu</code>. If those two
-        values agree, continue tracing it into
+        at the beginning of <code>display_menu</code>. Compare both
+        values with <code>datetime.now().day</code>. If the values agree,
+        continue tracing the same value into
         <code>get_daily_special</code>.</p>
     </details>
     <details>
         <summary>Hint: Off-by-one errors</summary>
         <p>An off-by-one error occurs when a calculation is one value
-        too high or too low. Check whether the value returned by
-        <code>datetime.now().day</code> already represents the current
-        day before it is passed to <code>display_menu</code>.</p>
+        too high or too low. <code>datetime.now().day</code> already
+        represents the one-based calendar day, so check whether
+        <code>main</code> adds an unnecessary offset before passing it
+        to <code>display_menu</code>.</p>
     </details>
     <details>
         <summary>Hint: List indexes and calendar days</summary>
@@ -212,63 +289,6 @@
     </details>
     </section>
 
-    <section>
-    <h3 id="debugger">3. Find a Menu-Width Error with the Debugger</h3>
-    <p>One line printed by <code>display_menu</code> is narrower than
-    the rest of the menu. The unit test named
-    <code>test_display_menu_line_widths</code> detects the problem.
-    Leave that test in place and use the VS Code debugger to identify
-    which printed line has the wrong width.</p>
-
-    <ol>
-        <li><div>Open <code>hotdog_menu.py</code> in VS Code.</div></li>
-        <li><div>Click in the gutter to the left of a line in
-        <code>display_menu</code> to set a red breakpoint. Begin near
-        the first line that prints a separator.</div></li>
-        <li><div>Open the <strong>Run and Debug</strong> view with
-        <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd> on Windows or
-        <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd> on macOS. Choose
-        <strong>Run and Debug</strong>, select Python if VS Code asks
-        for a debugger, and press <kbd>F5</kbd>.</div></li>
-        <li><div>When execution pauses, look in the
-        <strong>Variables</strong> pane. Check the values of
-        <code>width</code> and the expression used to create the line
-        that is about to print.</div></li>
-        <li><div>Use <strong>Step Over</strong>
-        (<kbd>F10</kbd>) to execute one line at a time. Continue with
-        <kbd>F5</kbd> after examining a line. Use <strong>Step Into</strong>
-        (<kbd>F11</kbd>) only when you need to enter a function such as
-        <code>format_menu_line</code>.</div></li>
-    </ol>
-
-    <p>As you step through the code, compare the requested width with
-    the width passed to the line-formatting function. Correct only the
-    statement responsible for the narrow line. Run the unit tests again
-    to confirm that every menu line now has the requested width.</p>
-
-    <details>
-        <summary>Hint: Choosing a breakpoint</summary>
-        <p>The top and bottom borders use a different character at each
-        end. The problem is in an interior separator line, so set a
-        breakpoint on or just before the statements that print interior
-        separators.</p>
-    </details>
-    <details>
-        <summary>Hint: Inspecting values</summary>
-        <p>While paused, hover over a variable in the editor or expand
-        the <strong>Variables</strong> pane. You can also use the
-        <strong>Debug Console</strong> to evaluate an expression such
-        as <code>len(formatted_line)</code> after a line has been
-        created.</p>
-    </details>
-    <details>
-        <summary>Hint: What to compare</summary>
-        <p>For an interior separator, compare both the number of
-        separator characters and the width argument supplied to
-        <code>format_menu_line</code> with the <code>width</code>
-        variable in <code>display_menu</code>.</p>
-    </details>
-    </section>
     </section>
 
     <section>

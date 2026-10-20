@@ -29,6 +29,12 @@ def format_menu_line(text, width):
     return f"|{text:^{width - 2}}|"
 
 
+def print_separator(width, character="="):
+    """Print a separator line with the given total width."""
+    text = character * (width - 2)
+    print(format_menu_line(text, width))
+
+
 def print_menu_item(name, price, width):
     """Print one menu item and its price inside the menu border."""
     price_text = f"${price:>6.2f}"
@@ -53,11 +59,12 @@ def display_menu(day, width):
     print(f"+{'=' * (width - 2)}+")
     for hotdog in hotdogs:
         print_menu_item(hotdog[0], hotdog[1], width)
-    print(format_menu_line("=" * (width - 3), width - 1))
+    special_width = width - 1
+    print_separator(special_width)
     print(format_menu_line("Daily Special", width))
     print_menu_item(special[0], special_price, width)
     print(format_menu_line("10% off", width))
-    print(format_menu_line("=" * (width - 2), width))
+    print_separator(width)
     print(format_menu_line("Auxiliary Items", width))
     for item in auxiliary_items:
         print_menu_item(item[0], item[1], width)
