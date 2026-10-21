@@ -8,11 +8,11 @@ from pong_game import (
     PADDLE_HEIGHT,
     PADDLE_WIDTH,
     ball_hits_paddle,
-    ball_speed,
-    bottom_wall_deflects,
     hits_right_wall,
     move_paddle,
     next_score,
+    reset_round_speed,
+    update_speed,
 )
 
 
@@ -23,11 +23,11 @@ def test_move_paddle_stays_inside_screen():
 
 def test_next_score_increases_score():
     assert next_score(0) == 1
-    assert next_score(98) == 99
+    assert next_score(8) == 9
 
 
-def test_score_can_reach_100():
-    assert next_score(99) == 100
+def test_score_rolls_over_after_9():
+    assert next_score(9) == 0
 
 
 def test_ball_hits_left_side_of_paddle():
@@ -68,21 +68,20 @@ def test_ball_does_not_hit_right_wall_early():
     assert not hits_right_wall(ball_x, BALL_SIZE, screen_width)
 
 
-def test_ball_speed_increases_over_time():
-    assert ball_speed(0) == pytest.approx(4.0)
-    assert ball_speed(8) == pytest.approx(6.0)
+def test_ball_speed_increases_after_paddle_hit():
+    assert update_speed(4.0, True) == pytest.approx(4.25)
 
 
 def test_ball_speed_stops_at_maximum():
-    assert ball_speed(60) == pytest.approx(MAX_SPEED)
+    assert update_speed(9.9, True) == pytest.approx(MAX_SPEED)
 
 
-def test_bottom_wall_does_not_deflect_before_five_paddle_hits():
-    assert not bottom_wall_deflects(4)
+def test_speed_does_not_change_without_paddle_hit():
+    assert update_speed(4.0, False) == pytest.approx(4.0)
 
 
-def test_bottom_wall_does_not_start_deflecting_after_five_paddle_hits():
-    assert not bottom_wall_deflects(5)
+def test_new_round_starts_at_starting_speed():
+    assert reset_round_speed(8.0) == pytest.approx(4.0)
 
 
 pytest.main(["-v", "--tb=line", "-rN", __file__])

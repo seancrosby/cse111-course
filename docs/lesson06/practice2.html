@@ -36,31 +36,47 @@
 
     <section>
     <h2 id="files">Starter Files</h2>
-    <p>Open these two files in VS Code:</p>
+    <p>Download and open <code>pong_game.py</code> in VS Code:</p>
     <ul>
-        <li><div><a href="pong_game.py"><code>pong_game.py</code></a>
+        <li><div><a download href="pong_game.py"><code>pong_game.py</code></a>
         contains the game and its Tkinter window.</div></li>
-        <li><div><a href="test_pong_game.py"><code>test_pong_game.py</code></a>
-        contains pytest tests for the game logic.</div></li>
     </ul>
     <p>The game has a ball, a paddle, and a score. Use the left and right
     arrow keys to move the paddle. The tests call small functions from the
-    game so you can investigate the logic without testing the Tkinter
-    window directly.</p>
+    game, but you will download the test file after you have finished the
+    debugging work.</p>
     </section>
 
     <section>
-    <h2 id="run">Run the Program and Tests</h2>
-    <p>Open a terminal in the lesson&nbsp;6 directory and run the tests:</p>
+    <h2 id="familiarize">Familiarize Yourself with the Code</h2>
+    <p>Before looking for bugs, read through <code>pong_game.py</code> from
+    top to bottom. Identify the constants, the small functions that
+    calculate game behavior, the functions that set up the game, and the
+    <code>main</code> function. Trace how a key press calls a function and
+    how one call to <code>update</code> moves the game forward.</p>
 
-<pre class="console">&gt; python test_pong_game.py</pre>
+    <p>This program uses the Tkinter module to create a simple graphical
+    window:</p>
+    <ul>
+        <li><div><code>tk.Tk()</code> creates the application window.</div></li>
+        <li><div><code>tk.Canvas</code> provides the drawing area for the
+        paddle, ball, score, and prompt.</div></li>
+        <li><div><code>bind</code> connects keyboard and mouse events to
+        methods such as <code>move_left</code> and
+        <code>start_round</code>.</div></li>
+        <li><div><code>after(16, update)</code> schedules another
+        update in about 16 milliseconds, creating the animation loop.</div></li>
+    </ul>
+    <p>You do not need to learn all of Tkinter before starting. For this
+    activity, focus on the values passed between the small game functions
+    and the <code>update</code> method. The tests will check those small
+    functions without opening a window.</p>
+    </section>
 
-    <p>If <code>python</code> is not the command on your computer, use
-    <code>python3 test_pong_game.py</code> on macOS or Linux, or
-    <code>py test_pong_game.py</code> on Windows. Read the pytest output
-    and record the name of each failing test.</p>
-
-    <p>Run the game with:</p>
+    <section>
+    <h2 id="run">Run the Program</h2>
+    <p>Open a terminal in the lesson&nbsp;6 directory and run the game:
+    </p>
 
 <pre class="console">&gt; python pong_game.py</pre>
 
@@ -74,15 +90,15 @@
 
     <section>
     <h2 id="activity">Debugging Activity</h2>
-    <p>There are four intentional bugs. Use the tests to learn which
-    behavior is incorrect, then use the debugger to follow the values
-    through the game. Fix each bug in the order below. Do not remove the
-    tests.</p>
+    <p>There are five intentional bugs. Use the game behavior and the
+    debugger to investigate each one. You will download the tests after
+    completing the debugging work to verify your corrections. Fix each
+    bug in the order below.</p>
 
     <section>
     <h3 id="score">1. Find a Score Rollover Bug</h3>
     <p>The score should increase by one each time the ball hits the
-    paddle. When the score is 99, the next score should be 100. The
+    paddle. When the score is 9, the next score should be 0. The
     failing test identifies the boundary case. Set a breakpoint in
     <code>next_score</code>, inspect the argument and return value, and
     step through the expression that calculates the new score.</p>
@@ -90,8 +106,8 @@
     <details>
         <summary>Hint: Boundary values</summary>
         <p>Test the ordinary case and the boundary case separately. A
-        calculation that works for 0 through 98 can still be wrong for
-        99.</p>
+        calculation that works for 0 through 8 can still be wrong for
+        9.</p>
     </details>
     </section>
 
@@ -128,36 +144,63 @@
     </section>
 
     <section>
-    <h3 id="speed">4. Find a Delayed Bottom-Wall Bug</h3>
-    <p>The ball should speed up gradually but should never exceed the
-    maximum speed. It should also leave the screen when it misses the
-    paddle, no matter how many times the paddle has been hit. After five
-    paddle hits, the bottom wall incorrectly begins deflecting the ball.
-    Set a breakpoint in <code>bottom_wall_deflects</code> and use the
-    Debug Console to call it with hit counts such as 0, 4, 5, and 10.
-    Also inspect the value returned by <code>ball_speed</code> as the
-    round continues.</p>
+    <h3 id="speed">4. Find a Speedup-Rate Bug</h3>
+    <p>The ball should speed up slightly after it hits the paddle, but its
+    speed should not change during an ordinary animation update. The
+    starter code changes the speed even when the paddle was not hit. Set
+    a breakpoint in <code>update_speed</code> and inspect
+    <code>current_speed</code>, <code>paddle_hit</code>, and the returned
+    value on several consecutive updates.</p>
 
-    <p>After fixing the function, play a round long enough to make at
-    least five paddle hits, then verify that a missed ball still ends the
-    round. This is an example of a bug that appears only after a program
-    has reached a particular state.</p>
+    <p>After fixing the function, run the game and observe that it begins
+    at a manageable speed, speeds up after paddle hits, and does not
+    become uncontrollably fast while the ball is traveling between hits.</p>
 
     <details>
-        <summary>Hint: Follow the threshold</summary>
-        <p>Calculate how many successful paddle hits are needed before
-        the condition changes. The bottom wall should never become a
-        deflector; a missed ball should end the round after any number of
-        paddle hits.</p>
+        <summary>Hint: Follow the event</summary>
+        <p>Compare an update where <code>paddle_hit</code> is
+        <code>False</code> with an update where it is <code>True</code>.
+        The speedup rate should be applied only for the second case, and
+        the result should never exceed <code>MAX_SPEED</code>.</p>
+    </details>
+    </section>
+
+    <section>
+    <h3 id="round">5. Find a Round-State Bug</h3>
+    <p>After fixing the speedup-rate bug, play long enough for the ball to
+    gain speed. Let the ball miss the paddle, then press Space or click to
+    start a second round. The second round should begin at the normal
+    starting speed, but it begins at the previous round's speed instead.
+    Set a breakpoint in <code>start_round</code> and step into
+    <code>reset_round_speed</code>. Compare the value of
+    <code>current_speed</code> with the value returned for a new round.</p>
+
+    <details>
+        <summary>Hint: Reset all round state</summary>
+        <p>List the values that change while a round is running. Check
+        which of those values are reset when a new round begins. The ball
+        position is reset, and <code>reset_round_speed</code> must return
+        <code>START_SPEED</code> instead of reusing the previous speed.</p>
     </details>
     </section>
     </section>
 
     <section>
     <h2 id="finish">Finish</h2>
-    <p>Run <code>test_pong_game.py</code> again and confirm that every
-    test passes. Run <code>pong_game.py</code> and verify that the paddle,
-    ball, score, wall collisions, and speed all behave correctly.</p>
+    <p>Now download
+    <a download href="test_pong_game.py"><code>test_pong_game.py</code></a>
+    and save it in the same folder as your corrected
+    <code>pong_game.py</code>. Run the downloaded test file one final time
+    and confirm that every test passes:</p>
+
+<pre class="console">&gt; python test_pong_game.py</pre>
+
+    <p>If <code>python</code> is not the command on your computer, use
+    <code>python3 test_pong_game.py</code> on macOS or Linux, or
+    <code>py test_pong_game.py</code> on Windows.</p>
+    <p>Then run <code>pong_game.py</code> and verify that the paddle, ball,
+    score, wall collisions, round-start prompt, and speed all behave
+    correctly.</p>
     <p>Be prepared to explain which values you inspected in the debugger
     and how those values led you to each correction.</p>
     </section>
