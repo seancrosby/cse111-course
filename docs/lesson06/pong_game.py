@@ -52,7 +52,7 @@ def ball_hits_paddle(ball_x, ball_y, paddle_x, paddle_y,
 def hits_right_wall(ball_x, ball_size=BALL_SIZE,
                     screen_width=SCREEN_WIDTH):
     """Return True when the ball reaches the right edge of the screen."""
-    return ball_x + ball_size >= screen_width - 50
+    return ball_x + ball_size >= screen_width
 
 
 def update_speed(current_speed, paddle_hit, speedup_rate=SPEEDUP_RATE,

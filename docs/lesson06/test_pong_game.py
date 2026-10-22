@@ -62,7 +62,7 @@ def test_ball_reaches_right_wall_at_screen_edge():
     assert hits_right_wall(ball_x, BALL_SIZE, screen_width)
 
 
-def test_ball_does_not_hit_right_wall_early():
+def test_ball_does_not_hit_right_wall_before_edge():
     screen_width = 640
     ball_x = screen_width - BALL_SIZE - 1
     assert not hits_right_wall(ball_x, BALL_SIZE, screen_width)

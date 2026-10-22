@@ -91,7 +91,7 @@
 
     <section>
     <h2 id="activity">Debugging Activity</h2>
-    <p>There are four intentional bugs. Use the game behavior and the
+    <p>There are three intentional bugs. Use the game behavior and the
     debugger to investigate each one. You will download the tests after
     completing the debugging work to verify your corrections. Fix each
     bug in the order below.</p>
@@ -114,22 +114,7 @@
     </section>
 
     <section>
-    <h3 id="wall">2. Find an Early Wall-Collision Bug</h3>
-    <p>The ball should deflect when it reaches the right edge of the
-    screen, not roughly 50 pixels before it gets there. Set a breakpoint in
-    <code>hits_right_wall</code>. Inspect the ball's right edge and the
-    screen width for a position one pixel before the edge and a position
-    at the edge.</p>
-
-    <details>
-        <summary>Hint: Use edges, not centers</summary>
-        <p>The ball's position is its left edge. Add the ball size to find
-        its right edge, then compare that edge with the screen boundary.</p>
-    </details>
-    </section>
-
-    <section>
-    <h3 id="speed">3. Find a Speedup-Rate Bug</h3>
+    <h3 id="speed">2. Find a Speedup-Rate Bug</h3>
     <p>The ball should speed up slightly after it hits the paddle, but its
     speed should not change during an ordinary animation update. The
     starter code changes the speed even when the paddle was not hit. Set
@@ -151,7 +136,7 @@
     </section>
 
     <section>
-    <h3 id="round">4. Find a Round-State Bug</h3>
+    <h3 id="round">3. Find a Round-State Bug</h3>
     <p>After fixing the speedup-rate bug, play long enough for the ball to
     gain speed. Let the ball miss the paddle, then press Space or click to
     start a second round. The second round should begin at the normal
