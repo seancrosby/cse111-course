@@ -42,7 +42,8 @@
         contains the game and its Tkinter window.</div></li>
     </ul>
     <p>The game has a ball, a paddle, and a score. Use the left and right
-    arrow keys to move the paddle. The tests call small functions from the
+    arrow keys to move the paddle. Hold an arrow key to move continuously;
+    releasing it stops the paddle. The tests call small functions from the
     game, but you will download the test file after you have finished the
     debugging work.</p>
     </section>
@@ -62,14 +63,14 @@
         <li><div><code>tk.Canvas</code> provides the drawing area for the
         paddle, ball, score, and prompt.</div></li>
         <li><div><code>bind</code> connects keyboard and mouse events to
-        methods such as <code>move_left</code> and
-        <code>start_round</code>.</div></li>
+        functions such as <code>press_left</code>,
+        <code>release_left</code>, and <code>start_round</code>.</div></li>
         <li><div><code>after(16, update)</code> schedules another
         update in about 16 milliseconds, creating the animation loop.</div></li>
     </ul>
     <p>You do not need to learn all of Tkinter before starting. For this
     activity, focus on the values passed between the small game functions
-    and the <code>update</code> method. The tests will check those small
+    and the <code>update</code> function. The tests will check those small
     functions without opening a window.</p>
     </section>
 
@@ -90,29 +91,13 @@
 
     <section>
     <h2 id="activity">Debugging Activity</h2>
-    <p>There are five intentional bugs. Use the game behavior and the
+    <p>There are four intentional bugs. Use the game behavior and the
     debugger to investigate each one. You will download the tests after
     completing the debugging work to verify your corrections. Fix each
     bug in the order below.</p>
 
     <section>
-    <h3 id="score">1. Find a Score Rollover Bug</h3>
-    <p>The score should increase by one each time the ball hits the
-    paddle. When the score is 9, the next score should be 0. The
-    failing test identifies the boundary case. Set a breakpoint in
-    <code>next_score</code>, inspect the argument and return value, and
-    step through the expression that calculates the new score.</p>
-
-    <details>
-        <summary>Hint: Boundary values</summary>
-        <p>Test the ordinary case and the boundary case separately. A
-        calculation that works for 0 through 8 can still be wrong for
-        9.</p>
-    </details>
-    </section>
-
-    <section>
-    <h3 id="paddle">2. Find a Paddle Collision Bug</h3>
+    <h3 id="paddle">1. Find a Paddle Collision Bug</h3>
     <p>The entire paddle should deflect the ball. The left-side collision
     test passes, but a ball aimed at the right side of the paddle does not
     deflect it. Set a breakpoint in <code>ball_hits_paddle</code> and
@@ -129,7 +114,7 @@
     </section>
 
     <section>
-    <h3 id="wall">3. Find an Early Wall-Collision Bug</h3>
+    <h3 id="wall">2. Find an Early Wall-Collision Bug</h3>
     <p>The ball should deflect when it reaches the right edge of the
     screen, not before it gets there. Set a breakpoint in
     <code>hits_right_wall</code>. Inspect the ball's right edge and the
@@ -144,7 +129,7 @@
     </section>
 
     <section>
-    <h3 id="speed">4. Find a Speedup-Rate Bug</h3>
+    <h3 id="speed">3. Find a Speedup-Rate Bug</h3>
     <p>The ball should speed up slightly after it hits the paddle, but its
     speed should not change during an ordinary animation update. The
     starter code changes the speed even when the paddle was not hit. Set
@@ -166,7 +151,7 @@
     </section>
 
     <section>
-    <h3 id="round">5. Find a Round-State Bug</h3>
+    <h3 id="round">4. Find a Round-State Bug</h3>
     <p>After fixing the speedup-rate bug, play long enough for the ball to
     gain speed. Let the ball miss the paddle, then press Space or click to
     start a second round. The second round should begin at the normal

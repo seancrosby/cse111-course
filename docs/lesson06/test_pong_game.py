@@ -69,7 +69,7 @@ def test_ball_does_not_hit_right_wall_early():
 
 
 def test_ball_speed_increases_after_paddle_hit():
-    assert update_speed(4.0, True) == pytest.approx(4.25)
+    assert update_speed(2.5, True) == pytest.approx(2.75)
 
 
 def test_ball_speed_stops_at_maximum():
@@ -77,11 +77,11 @@ def test_ball_speed_stops_at_maximum():
 
 
 def test_speed_does_not_change_without_paddle_hit():
-    assert update_speed(4.0, False) == pytest.approx(4.0)
+    assert update_speed(2.5, False) == pytest.approx(2.5)
 
 
 def test_new_round_starts_at_starting_speed():
-    assert reset_round_speed(8.0) == pytest.approx(4.0)
+    assert reset_round_speed(8.0) == pytest.approx(2.5)
 
 
 pytest.main(["-v", "--tb=line", "-rN", __file__])

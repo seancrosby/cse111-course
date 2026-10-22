@@ -17,7 +17,7 @@ PADDLE_HEIGHT = 14
 PADDLE_Y_OFFSET = 28
 BALL_SIZE = 16
 PADDLE_STEP = 24
-START_SPEED = 4.0
+START_SPEED = 2.5
 SPEEDUP_RATE = 0.25
 MAX_SPEED = 10.0
 
@@ -31,7 +31,7 @@ def move_paddle(paddle_x, amount, screen_width=SCREEN_WIDTH,
 
 def next_score(score):
     """Return the score after the player earns one point."""
-    return (score + 1) % 100
+    return (score + 1) % 10
 
 
 def ball_hits_paddle(ball_x, ball_y, paddle_x, paddle_y,
@@ -80,6 +80,8 @@ ball_dy = 1
 score = 0
 speed = START_SPEED
 running = False
+left_pressed = False
+right_pressed = False
 score_id = None
 paddle_id = None
 ball_id = None
@@ -96,6 +98,30 @@ def move_right(event=None):
     """Move the paddle right."""
     global paddle_x
     paddle_x = move_paddle(paddle_x, PADDLE_STEP)
+
+
+def press_left(event=None):
+    """Remember that the left arrow key is being held."""
+    global left_pressed
+    left_pressed = True
+
+
+def release_left(event=None):
+    """Remember that the left arrow key was released."""
+    global left_pressed
+    left_pressed = False
+
+
+def press_right(event=None):
+    """Remember that the right arrow key is being held."""
+    global right_pressed
+    right_pressed = True
+
+
+def release_right(event=None):
+    """Remember that the right arrow key was released."""
+    global right_pressed
+    right_pressed = False
 
 
 def reset_ball():
@@ -177,8 +203,10 @@ def setup_game(window):
         font=("TkDefaultFont", 16)
     )
 
-    root.bind("<Left>", move_left)
-    root.bind("<Right>", move_right)
+    root.bind("<KeyPress-Left>", press_left)
+    root.bind("<KeyRelease-Left>", release_left)
+    root.bind("<KeyPress-Right>", press_right)
+    root.bind("<KeyRelease-Right>", release_right)
     root.bind("<space>", start_round)
     root.bind("<Button-1>", start_round)
 
@@ -189,6 +217,11 @@ def update():
 
     if not running:
         return
+
+    if left_pressed and not right_pressed:
+        move_left()
+    elif right_pressed and not left_pressed:
+        move_right()
 
     paddle_hit = False
     ball_x += ball_dx * speed
